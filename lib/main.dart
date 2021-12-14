@@ -1,6 +1,10 @@
-import 'package:demo_app/Screen/image_banner.dart';
-import 'package:demo_app/Screen/text_section.dart';
+import 'package:demo_app/screens/locationList/location_list.dart';
+import 'package:demo_app/screens/locationDetail/location_details.dart';
+import 'package:demo_app/style.dart';
 import 'package:flutter/material.dart';
+
+const locationsRoute = '/';
+const locationDetailRoute = '/location_detail';
 
 void main() {
   runApp(const MyApp());
@@ -12,23 +16,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Flutter app"),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ImageBanner("assets/images/Icon-192.png"),
-            TextSection(Colors.red),
-            TextSection(Colors.green),
-            TextSection(Colors.white),
-            TextSection(Colors.yellow)
-          ],
-        ),
-      ),
+      onGenerateRoute: _routes(),
+      theme: _theme(),
+      initialRoute: "/",
     );
+  }
+
+  RouteFactory _routes() {
+    return (settings) {
+      final arguments = settings.arguments;
+      Widget screen;
+      switch (settings.name) {
+        case locationsRoute:
+          screen = LocationList();
+          break;
+        case locationDetailRoute:
+          screen = LocationDetail(arguments as int);
+          break;
+        default:
+          return null;
+      }
+      return MaterialPageRoute(builder: (BuildContext context) => screen);
+    };
+  }
+
+  ThemeData _theme() {
+    return ThemeData(
+        appBarTheme: const AppBarTheme(titleTextStyle: appBarTextTheme),
+        textTheme: const TextTheme(
+            headline1: headingTextStyle, subtitle1: subTitleTextStyle));
   }
 }
