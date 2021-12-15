@@ -2,11 +2,12 @@ import 'package:demo_app/widgets/image_banner.dart';
 import 'package:demo_app/widgets/text_section.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_app/Models/location.dart';
+import 'package:demo_app/theme_manager.dart';
 
 class LocationDetail extends StatelessWidget {
   final int locationId;
 
-  const LocationDetail(this.locationId, {Key? key}) : super(key: key);
+  LocationDetail(this.locationId, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +20,6 @@ class LocationDetail extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(location.title),
-        centerTitle: true,
-      ),
       body: Column(
         children: [
           ImageBanner(location.image),

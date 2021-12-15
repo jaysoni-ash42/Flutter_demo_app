@@ -13,16 +13,30 @@ const appBarTextTheme = TextStyle(
   color: Colors.white,
 );
 
-const headingTextStyle = TextStyle(
+const lightModeHeadingTextStyle = TextStyle(
   fontFamily: fontDefaultName,
   fontWeight: FontWeight.w300,
   fontSize: largeTextSize,
   color: Colors.black,
 );
 
-const subTitleTextStyle = TextStyle(
+const darkModeHeadingTextStyle = TextStyle(
+  fontFamily: fontDefaultName,
+  fontWeight: FontWeight.w300,
+  fontSize: largeTextSize,
+  color: Colors.white,
+);
+
+const lightModeSubTitleTextStyle = TextStyle(
   fontFamily: fontDefaultName,
   fontWeight: FontWeight.w300,
   fontSize: smallTextSize,
   color: Colors.black,
+);
+
+const darkModeSubTitleTextStyle = TextStyle(
+  fontFamily: fontDefaultName,
+  fontWeight: FontWeight.w300,
+  fontSize: smallTextSize,
+  color: Colors.white,
 );
