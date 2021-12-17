@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../style.dart';
+
 class LocationCard extends StatelessWidget {
   final String _image;
   final String _title;
@@ -8,7 +10,17 @@ class LocationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.all(8.0),
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black45,
+              blurRadius: 2.0,
+              spreadRadius: 0.0,
+              offset: Offset(2.0, 2.0),
+            )
+          ],
+        ),
         child: Stack(
           children: [
             Container(
@@ -23,13 +35,17 @@ class LocationCard extends StatelessWidget {
                 bottom: 0,
                 child: Container(
                     padding: const EdgeInsets.all(5.0),
-                    decoration:
-                        BoxDecoration(color: Colors.black.withOpacity(0.5)),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                    ),
                     alignment: Alignment.topLeft,
-                    child: Text(
-                      _title,
-                      style: Theme.of(context).textTheme.headline1,
-                    ))),
+                    child: Text(_title,
+                        style: const TextStyle(
+                          fontFamily: fontDefaultName,
+                          fontWeight: FontWeight.w300,
+                          fontSize: largeTextSize,
+                          color: Colors.white,
+                        )))),
           ],
         ));
   }
