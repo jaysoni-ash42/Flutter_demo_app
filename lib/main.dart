@@ -3,20 +3,19 @@ import 'package:demo_app/screens/locationDetail/location_details.dart';
 import 'package:demo_app/style.dart';
 import 'package:demo_app/theme_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const locationsRoute = '/';
 const locationDetailRoute = '/location_detail';
 
-void main() {
-  runApp(const MyApp());
-}
-
-ThemeManager _themeManager = ThemeManager();
-bool isDark = false;
-
-bool chnageTheme() {
-  isDark = !isDark;
-  return isDark;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isDarkTheme = prefs.getBool('darkTheme') ?? false;
+  runApp(ChangeNotifierProvider(
+      create: (_) => ThemeManager(isDarkTheme),
+      child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -28,25 +27,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void dispose() {
-    _themeManager.removeListener(themeListener);
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    _themeManager.addListener(themeListener);
-    super.initState();
-  }
-
-  themeListener() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final _themeManager = Provider.of<ThemeManager>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: _routes(),
@@ -71,21 +53,23 @@ class _MyAppState extends State<MyApp> {
         default:
           return null;
       }
-      return MaterialPageRoute(
-          builder: (BuildContext context) => Scaffold(
-              appBar: AppBar(
-                title: const Text("Location App"),
-                centerTitle: true,
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.brightness_6),
-                    onPressed: () {
-                      _themeManager.toggleTheme(chnageTheme());
-                    },
-                  )
-                ],
-              ),
-              body: screen));
+      return MaterialPageRoute(builder: (BuildContext context) {
+        final _themeManager = Provider.of<ThemeManager>(context);
+        return Scaffold(
+            appBar: AppBar(
+              title: const Text("Location App"),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.brightness_6),
+                  onPressed: () {
+                    _themeManager.toggleTheme();
+                  },
+                )
+              ],
+            ),
+            body: screen);
+      });
     };
   }
 
