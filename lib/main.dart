@@ -1,21 +1,27 @@
+import 'package:demo_app/Providers/google_sign_provider.dart';
+import 'package:demo_app/screens/HomeScreen/home_screen.dart';
 import 'package:demo_app/screens/locationList/location_list.dart';
 import 'package:demo_app/screens/locationDetail/location_details.dart';
 import 'package:demo_app/style.dart';
-import 'package:demo_app/theme_manager.dart';
+import 'package:demo_app/Providers/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-const locationsRoute = '/';
+const homeroute = "/";
+const locationsRoute = '/locationRoute';
 const locationDetailRoute = '/location_detail';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isDarkTheme = prefs.getBool('darkTheme') ?? false;
-  runApp(ChangeNotifierProvider(
-      create: (_) => ThemeManager(isDarkTheme),
-      child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => ThemeManager(isDarkTheme)),
+    ChangeNotifierProvider(create: (_) => GoogleSignProvider())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -44,6 +50,9 @@ class _MyAppState extends State<MyApp> {
       final arguments = settings.arguments;
       Widget screen;
       switch (settings.name) {
+        case homeroute:
+          screen = Homecreen();
+          break;
         case locationsRoute:
           screen = LocationList();
           break;
@@ -53,23 +62,7 @@ class _MyAppState extends State<MyApp> {
         default:
           return null;
       }
-      return MaterialPageRoute(builder: (BuildContext context) {
-        final _themeManager = Provider.of<ThemeManager>(context);
-        return Scaffold(
-            appBar: AppBar(
-              title: const Text("Location App"),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.brightness_6),
-                  onPressed: () {
-                    _themeManager.toggleTheme();
-                  },
-                )
-              ],
-            ),
-            body: screen);
-      });
+      return MaterialPageRoute(builder: (BuildContext context) => screen);
     };
   }
 
