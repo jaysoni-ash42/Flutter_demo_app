@@ -1,5 +1,5 @@
 import 'package:demo_app/Providers/google_sign_provider.dart';
-import 'package:demo_app/screens/locationList/location_list.dart';
+import 'package:demo_app/screens/PostList/post_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_app/widgets/text_section.dart';
@@ -21,7 +21,7 @@ class Homecreen extends StatelessWidget {
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.hasData) {
-                    return LocationList();
+                    return PostList();
                   } else {
                     return Container(
                         margin:

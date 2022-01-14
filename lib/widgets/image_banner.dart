@@ -8,7 +8,7 @@ class ImageBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints.expand(height: 200.0),
-      child: Image.asset(
+      child: Image.network(
         image,
         fit: BoxFit.cover,
       ),
