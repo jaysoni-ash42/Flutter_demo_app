@@ -1,39 +1,29 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_app/Models/post.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-Future<List<Post>> getPosts() async {
+Future<bool> uploadPost(
+    File image, String id, String title, String description) async {
   try {
-    List<Post> listPost = [];
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference PostRef = firestore.collection("location");
-    var dataList = await PostRef.get();
-    for (var doc in dataList.docs) {
-      Map post = doc.data() as Map;
-      Post loc = Post(
-          id: post["Id"],
-          title: post["title"],
-          image: post["image"],
-          facts: post["facts"] ?? []);
-      listPost.add(loc);
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child("images")
+        .child('${DateTime.now().toIso8601String() + image.path}');
+    final result = await ref.putFile(image);
+    final fileUrl = await result.ref.getDownloadURL();
+    CollectionReference location =
+        FirebaseFirestore.instance.collection("location");
+    DocumentReference doc = await location.add({
+      "id": id,
+      "image": fileUrl,
+      "title": title,
+      "description": description
+    });
+    if (doc != null) {
+      return true;
+    } else {
+      return false;
     }
-    return listPost;
-  } catch (e) {
-    throw Exception(e);
-  }
-}
-
-Future<Post> getPostFacts(id) async {
-  try {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentReference PostRef = firestore.collection("location").doc(id);
-    var snapShot = await PostRef.get();
-    Map data = snapShot.data() as Map;
-    Post post = Post(
-        id: data["Id"],
-        title: data["title"],
-        image: data["image"],
-        facts: data["facts"]);
-    return post;
   } catch (e) {
     throw Exception(e);
   }

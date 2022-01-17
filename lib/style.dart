@@ -15,14 +15,14 @@ const appBarTextTheme = TextStyle(
 
 const lightModeHeadingTextStyle = TextStyle(
   fontFamily: fontDefaultName,
-  fontWeight: FontWeight.w300,
+  fontWeight: FontWeight.bold,
   fontSize: largeTextSize,
   color: Colors.black,
 );
 
 const darkModeHeadingTextStyle = TextStyle(
   fontFamily: fontDefaultName,
-  fontWeight: FontWeight.w300,
+  fontWeight: FontWeight.bold,
   fontSize: largeTextSize,
   color: Colors.white,
 );

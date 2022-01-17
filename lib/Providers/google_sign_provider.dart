@@ -6,7 +6,7 @@ class GoogleSignProvider extends ChangeNotifier {
   GoogleSignInAccount? _user;
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
 
-  GoogleSignInAccount get user => _user!;
+  GoogleSignInAccount? get user => _user;
 
   Future googleLogin() async {
     try {

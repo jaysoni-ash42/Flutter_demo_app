@@ -10,8 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 const homeroute = "/";
-const PostsRoute = '/PostRoute';
-const PostDetailRoute = '/Post_detail';
+const postsRoute = '/PostRoute';
+const postDetailRoute = '/Post_detail';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,11 +53,11 @@ class _MyAppState extends State<MyApp> {
         case homeroute:
           screen = const Homecreen();
           break;
-        case PostsRoute:
+        case postsRoute:
           screen = const PostList();
           break;
-        case PostDetailRoute:
-          screen = PostDetail(PostId: arguments as String);
+        case postDetailRoute:
+          screen = PostDetail(postId: arguments as String);
           break;
         default:
           return null;
